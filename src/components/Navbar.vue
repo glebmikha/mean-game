@@ -26,6 +26,7 @@
         <v-btn flat to="/">Play</v-btn>
         <v-btn v-if="!user" flat to="/signin">Sign In</v-btn>
         <v-btn v-if="!user" flat to="/signup">Sign Up</v-btn>
+        <v-btn v-if="user" flat to="/profile">{{user.email}}</v-btn>
         <v-btn v-if="user" flat @click="signout">Sign Out</v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { firebase, auth } from "@/firebase/init";
+import { auth } from "@/firebase/init";
 
 export default {
   name: "Navbar",

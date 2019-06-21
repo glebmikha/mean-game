@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { firebase, auth, db } from "@/firebase/init";
+import { auth, db } from "@/firebase/init";
 import slugify from "slugify";
 export default {
   data() {

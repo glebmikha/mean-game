@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { firebase, auth } from "@/firebase/init";
+import { auth } from "@/firebase/init";
 export default {
   data() {
     return {
@@ -55,7 +55,7 @@ export default {
         this.feedback = null;
         auth
           .signInWithEmailAndPassword(this.email, this.password)
-          .then(user => {
+          .then(() => {
             //console.log(user)
             this.$router.push({ name: "home" });
           })
