@@ -5,14 +5,17 @@
         <v-list-tile>
           <v-btn flat to="/">Play</v-btn>
         </v-list-tile>
-        <v-list-tile>
-          <v-btn v-if="!user" flat to="/signin">Sign In</v-btn>
+        <v-list-tile v-if="!user">
+          <v-btn flat to="/signin">Sign In</v-btn>
         </v-list-tile>
-        <v-list-tile>
-          <v-btn v-if="!user" flat to="/signup">Sign Up</v-btn>
+        <v-list-tile v-if="!user">
+          <v-btn flat to="/signup">Sign Up</v-btn>
         </v-list-tile>
-        <v-list-tile>
-          <v-btn v-if="user" flat @click="signout">Sign Out</v-btn>
+        <v-list-tile v-if="user">
+          <v-btn flat to="/profile">{{user.email}}</v-btn>
+        </v-list-tile>
+        <v-list-tile v-if="user">
+          <v-btn flat @click="signout">Sign Out</v-btn>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
