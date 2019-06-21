@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import { firebase, auth } from "@/firebase/init";
 export default {
   data() {
     return {
@@ -53,8 +53,7 @@ export default {
     signin() {
       if (this.email && this.password) {
         this.feedback = null;
-        firebase
-          .auth()
+        auth
           .signInWithEmailAndPassword(this.email, this.password)
           .then(user => {
             //console.log(user)

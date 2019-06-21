@@ -1,10 +1,10 @@
 <template>
   <v-toolbar :dark="true">
     <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
-    <v-toolbar-title class="hidden-sm-and-down">Mean Game</v-toolbar-title>
+    <v-toolbar-title>Mean Game</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn flat to="/">Game</v-btn>
+      <v-btn flat to="/">Play</v-btn>
 
       <v-btn v-if="!user" flat to="/signin">Sign In</v-btn>
       <v-btn v-if="!user" flat to="/signup">Sign Up</v-btn>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import { firebase, auth } from "@/firebase/init";
 
 export default {
   name: "Navbar",
@@ -24,8 +24,7 @@ export default {
     };
   },
   created() {
-    // let user = firebase.auth().currentUser
-    firebase.auth().onAuthStateChanged(user => {
+    auth.onAuthStateChanged(user => {
       if (user) {
         this.user = user;
       } else {
@@ -35,12 +34,9 @@ export default {
   },
   methods: {
     signout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push({ name: "signin" });
-        });
+      auth.signOut().then(() => {
+        this.$router.push({ name: "signin" });
+      });
     }
   }
 };

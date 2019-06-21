@@ -47,9 +47,8 @@
 </template>
 
 <script>
-import db from "@/firebase/init";
+import { firebase, auth, db } from "@/firebase/init";
 import slugify from "slugify";
-import firebase from "firebase";
 export default {
   data() {
     return {
@@ -75,8 +74,7 @@ export default {
             this.feedback = "This name already exists";
           } else {
             // this name does not yet exists in the db
-            firebase
-              .auth()
+            auth
               .createUserWithEmailAndPassword(this.email, this.password)
               .then(cred => {
                 ref.set({
