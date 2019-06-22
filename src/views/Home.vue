@@ -12,7 +12,7 @@
 <script>
 import History from "@/components/History.vue";
 import Game from "@/components/Game.vue";
-import { auth } from "@/firebase/init";
+import { auth, db } from "@/firebase/init";
 export default {
   components: {
     "app-history": History,
@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      userAnswers: null
+      userAnswers: []
     };
   },
   methods: {
@@ -30,6 +30,21 @@ export default {
       } else {
         this.userAnswers = userAnswers;
       }
+    }
+  },
+  created() {
+    if (auth.currentUser) {
+      let ref = db.collection("answers").orderBy("timestamp", "desc");
+      // subscribe to changes to the 'messages' collection
+      ref.onSnapshot(snapshot => {
+        snapshot.docChanges().forEach(change => {
+          if (change.type == "added") {
+            let doc = change.doc;
+
+            this.userAnswers.unshift(doc.data());
+          }
+        });
+      });
     }
   }
 };

@@ -1,7 +1,13 @@
 <template>
   <v-app id="inspire">
-    <v-data-table v-if="userAnswers" :headers="headers" :items="userAnswers" class="elevation-1">
+    <v-data-table
+      v-if="userAnswers.length>0"
+      :headers="headers"
+      :items="userAnswers"
+      class="elevation-1"
+    >
       <template v-slot:items="props">
+        <td>{{props.item.date}}</td>
         <td>{{ props.item.array.array }}</td>
         <td class="text-xs-right">{{ props.item.array.mean }}</td>
         <td class="text-xs-right">{{ props.item.userMean }}</td>
@@ -17,6 +23,12 @@ export default {
   data() {
     return {
       headers: [
+        {
+          text: "Date",
+          align: "left",
+          sortable: false,
+          value: "date"
+        },
         {
           text: "Array",
           align: "left",

@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { getDiffieHellman } from "crypto";
-import { auth } from "@/firebase/init";
+import { auth, db } from "@/firebase/init";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -39,26 +39,38 @@ export default {
       userAnswers: []
     };
   },
+  created() {
+    this.newGame();
+  },
   methods: {
     formSubmit() {
       if (this.userMean) {
         this.feedback = null;
         // calculate and save answer
         let error = (this.array.mean - this.userMean) / this.array.mean;
-        this.userAnswers.unshift({
+
+        let currentAnswer = {
           array: this.array,
-          userMean: this.userMean,
-          error: error
-        });
+          userMean: parseFloat(this.userMean),
+          error: error,
+          timestamp: Date.now(),
+          user_id: auth.currentUser ? auth.currentUser.uid : null,
+          date: moment(Date.now()).format("lll")
+        };
 
         // push to db or emit for anonymous user
         if (auth.currentUser) {
-          // push to db
+          db.collection("answers")
+            .add(currentAnswer)
+            .catch(err => {
+              console.log(err);
+            });
         } else {
           // emit
+          this.userAnswers.unshift(currentAnswer);
           this.$emit("answersUpdated", this.userAnswers);
         }
-
+        // get new array and clean input
         this.array = this.generateArray(this.arrLen, this.coef);
         this.userMean = null;
       } else {
