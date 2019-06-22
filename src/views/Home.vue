@@ -34,7 +34,11 @@ export default {
   },
   created() {
     if (auth.currentUser) {
-      let ref = db.collection("answers").orderBy("timestamp", "desc");
+      let ref = db
+        .collection("answers")
+        .orderBy("timestamp", "desc")
+        .where("user_id", "==", auth.currentUser.uid);
+      // .doc(auth.currentUser.uid);
       // subscribe to changes to the 'messages' collection
       ref.onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
