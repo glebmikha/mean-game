@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { auth, db } from "@/firebase/init";
+import { auth, db, functions } from "@/firebase/init";
 import slugify from "slugify";
 export default {
   data() {
@@ -68,15 +68,16 @@ export default {
           remove: /[$*_+~.()'"!\-:@]/g,
           lower: true
         });
-        let ref = db.collection("users").doc(this.slug);
-        ref.get().then(doc => {
-          if (doc.exists) {
+        let checkName = functions.httpsCallable("checkName");
+        checkName({ name: this.slug }).then(result => {
+          if (!result.data.unique) {
             this.feedback = "This name already exists";
           } else {
             // this name does not yet exists in the db
             auth
               .createUserWithEmailAndPassword(this.email, this.password)
               .then(cred => {
+                let ref = db.collection("users").doc(this.slug);
                 ref.set({
                   name: this.name,
                   user_id: cred.user.uid
