@@ -48,7 +48,7 @@ export default {
       if (this.userMean) {
         this.feedback = null;
         // calculate and save answer
-        let error = (this.array.mean - this.userMean) / this.array.mean;
+        let error = (-1 * (this.array.mean - this.userMean)) / this.array.mean;
 
         let currentAnswer = {
           array: this.array,
