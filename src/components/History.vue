@@ -11,7 +11,7 @@
         <td>{{ props.item.array.array }}</td>
         <td class="text-xs-right">{{ props.item.array.mean }}</td>
         <td class="text-xs-right">{{ props.item.userMean }}</td>
-        <td class="text-xs-right">{{ props.item.error }}</td>
+        <td class="text-xs-right">{{ props.item.error.toFixed(1) }}%</td>
       </template>
     </v-data-table>
   </v-app>

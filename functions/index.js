@@ -16,3 +16,26 @@ exports.checkName = functions.https.onCall((data, context) => {
       throw new functions.https.HttpsError("failed to connect");
     });
 });
+
+exports.getAverageError = functions.https.onCall((data, context) => {
+  const ref = admin
+    .firestore()
+    .collection("answers")
+    .where("user_id", "==", data.uid);
+  let errors = [];
+  return ref
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        errors.push(Math.abs(doc.data().error));
+      });
+      const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
+      const avg = average(errors);
+      return {
+        averageError: avg
+      };
+    })
+    .catch(err => {
+      throw new functions.https.HttpsError("failed to connect");
+    });
+});

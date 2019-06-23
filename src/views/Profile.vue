@@ -28,7 +28,7 @@
                 ></v-text-field>
                 <v-flex xs12 md8 offset-md2>
                   <v-card-text>
-                    <h3>Your average error is</h3>
+                    <h3>Your average error is {{error}}%</h3>
                   </v-card-text>
                 </v-flex>
               </v-form>
@@ -40,12 +40,13 @@
   </v-content>
 </template>
 <script>
-import { auth, db } from "@/firebase/init";
+import { auth, db, functions } from "@/firebase/init";
 export default {
   data() {
     return {
       email: null,
-      name: null
+      name: null,
+      error: null
     };
   },
   created() {
@@ -59,6 +60,10 @@ export default {
           this.name = doc.data().name;
         });
       });
+    let getAverageError = functions.httpsCallable("getAverageError");
+    getAverageError({ uid }).then(result => {
+      this.error = (result.data.averageError * 100).toFixed(1);
+    });
   }
 };
 </script>
