@@ -17,6 +17,7 @@
               type="number"
             ></v-text-field>
           </v-flex>
+          <v-flex class="tip" xs12 md4 offset-md4>enter your guess for the mean</v-flex>
         </v-form>
         <v-alert :value="feedback" type="info">{{feedback}}</v-alert>
       </v-card-text>
@@ -108,5 +109,10 @@ export default {
 
 .v-label {
   text-align: center;
+}
+
+.tip {
+  text-align: center;
+  color: lightslategray;
 }
 </style>
