@@ -45,7 +45,7 @@ export default {
           if (change.type == "added") {
             let doc = change.doc;
 
-            this.userAnswers.unshift(doc.data());
+            this.userAnswers.push(doc.data());
           }
         });
       });
